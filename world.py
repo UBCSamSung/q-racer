@@ -1,10 +1,15 @@
 import numpy as np
 import helper
 
+# Color coding for map elements
 WALL=0
 ROAD=255
 CAR=128
 LINE=200
+
+# Track info
+TRACK_WIDTH = 10
+
 
 class Racer():
     def __init__(self, position, direction, last_elem):
@@ -54,6 +59,7 @@ class World():
         }
     
     def add_racer(self, position, direction):
+        # TODO: Place racer at starting line
         last_elem=self.world_map[position]
         racer = Racer(position, direction, last_elem)
         self.racers.append(racer)
@@ -83,6 +89,8 @@ class World():
 
         self.world_map[new_position]=CAR
         racer.position = new_position
+
+        # TODO: Wining / Losing check
         
     def out_of_bound(self, position):
         height, width=self.world_map.shape
