@@ -2,9 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from world import World
+from test_maps import rectangle
 
 # Initialize new world
 world = World()
+world.world_map = rectangle
 
 # Game update
 def gameUpdate(*args):
