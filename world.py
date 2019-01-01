@@ -14,7 +14,6 @@ class Racer():
         self.velocity=(0,0)
         self.direction=direction
         self.lap=0
-        self.instruction=None
         self.last_elem=last_elem
         self.action=None
         # car option
@@ -38,14 +37,15 @@ class Racer():
         else:
             raise Exception('bad action')
 
+            
+
 class World():
     def __init__(self):
         self.racers=[]
         self.world_map=None
-
+        
     def set_map(self, map):
         self.world_map = map
-
     def get_state(self):
         return {
             'racers': self.racers,
@@ -67,15 +67,11 @@ class World():
     def update_racer(self, racer):
         racer.update()
         old_position = racer.position
-        new_position = tuple(np.clip(np.add(racer.position,racer.velocity), [0,0], self.world_map.shape))
-        new_position = self.check_collision(old_position, new_position) or new_position
-        print("new position", new_position)
-        
+        new_position = tuple(np.array(np.add(racer.position,racer.velocity), dtype=np.uint8))
         collision_position = self.check_collision(old_position, new_position)
         if collision_position!=None:
             racer.velocity=0
             new_position = collision_position
-
         self.world_map[old_position]=racer.last_elem
         racer.last_elem=self.world_map[new_position]
         self.world_map[new_position]=CAR
