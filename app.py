@@ -10,6 +10,7 @@ world.world_map = rectangle
 
 # Game update
 def gameUpdate(*args):
+    world.update()
     im.set_data(world.world_map)
     return im,
 
