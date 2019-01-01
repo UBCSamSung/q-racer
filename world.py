@@ -1,9 +1,12 @@
 import numpy as np
+import helper
 
 WALL=0
 ROAD=255
 CAR=128
 LINE=200
+
+
 
 class Racer():
     def __init__(self, position, direction, last_elem):
@@ -13,6 +16,27 @@ class Racer():
         self.lap=0
         self.instruction=None
         self.last_elem=last_elem
+        self.action=None
+        # car option
+        self.deltaV=1
+        self.deltaPhi=10
+    
+    def update(self):
+        if self.action==None:
+            return
+        elif self.action=="forward":
+            acceleration = helper.angle2vector(self.direction)*self.deltaV
+            self.velocity=tuple(np.add(self.velocity, acceleration))
+        elif self.action=="backward":
+            acceleration = -helper.angle2vector(self.direction)*self.deltaV
+
+            self.velocity=tuple(np.add(self.velocity, acceleration))
+        elif self.action=="left":
+            self.direction+=self.deltaPhi
+        elif self.action=="right":
+            self.direction-=self.deltaPhi
+        else:
+            raise Exception('bad action')
 
 class World():
     def __init__(self):
@@ -36,25 +60,25 @@ class World():
     def update(self, agent_inputs=None):
         if agent_inputs:
             for index, agent_input in enumerate(agent_inputs):
-                self.racers.instruction = agent_input
+                self.racers[index].action = agent_input
         for racer in self.racers:
             self.update_racer(racer)
-        # self.world_map[:]=255
     
     def update_racer(self, racer):
+        racer.update()
         old_position = racer.position
         new_position = tuple(np.clip(np.add(racer.position,racer.velocity), [0,0], self.world_map.shape))
         new_position = self.check_collision(old_position, new_position) or new_position
+        print("new position", new_position)
         
-        # trying
+        collision_position = self.check_collision(old_position, new_position)
+        if collision_position!=None:
+            racer.velocity=0
+            new_position = collision_position
+
         self.world_map[old_position]=racer.last_elem
         racer.last_elem=self.world_map[new_position]
         self.world_map[new_position]=CAR
-        
-        # if above doesn't work...
-        #self.world_map[old_position]=ROAD
-        #self.world_map[new_position]=CAR
-
         racer.position = new_position
         
     def out_of_bound(self, position):
