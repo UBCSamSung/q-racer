@@ -12,4 +12,4 @@ def angle2vector(angle):
     return rotate([1,0], angle)
 
 def vector2angle(vector):
-    return math.degrees(math.atan2(vector[1], vector[0]))
+    return math.degrees(math.atan2(vector[1], vector[0]))    

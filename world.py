@@ -23,7 +23,7 @@ class Racer():
         self.last_elem=last_elem
         self.action=None
         self.start_time=dt.datetime.now()
-        self.score=0
+        self.penalty=0
 
         # car option
         self.deltaV=1
@@ -86,7 +86,7 @@ class World():
         if len(racersAtGoal) > 0:
             print("Game end!")
             for racer in racersAtGoal:
-                print(f"Winning racer: {racer.id} Score: {racer.score}")
+                print(f"Winning racer: {racer.id} Score: {-racer.penalty}")
 
             # For testing only            
             import os
@@ -95,7 +95,6 @@ class World():
     def update_racer(self, racer):
         if racer.position[1] == self.goal_line:
             print("Race done")
-            racer.score = 1 / (dt.datetime.now() - racer.start_time).microseconds
             return True
 
         racer.update()
@@ -114,6 +113,7 @@ class World():
 
         self.world_map[new_position]=CAR
         racer.position = new_position
+        racer.penalty += 1
         return False
         
     def out_of_bound(self, position):
