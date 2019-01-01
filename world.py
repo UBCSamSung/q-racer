@@ -6,8 +6,6 @@ ROAD=255
 CAR=128
 LINE=200
 
-
-
 class Racer():
     def __init__(self, position, direction, last_elem):
         self.position=position
@@ -16,6 +14,7 @@ class Racer():
         self.lap=0
         self.last_elem=last_elem
         self.action=None
+
         # car option
         self.deltaV=1
         self.deltaPhi=10
@@ -46,6 +45,7 @@ class World():
         
     def set_map(self, map):
         self.world_map = map
+
     def get_state(self):
         return {
             'racers': self.racers,
@@ -61,6 +61,7 @@ class World():
         if agent_inputs:
             for index, agent_input in enumerate(agent_inputs):
                 self.racers[index].action = agent_input
+
         for racer in self.racers:
             self.update_racer(racer)
     
@@ -69,11 +70,16 @@ class World():
         old_position = racer.position
         new_position = tuple(np.array(np.add(racer.position,racer.velocity), dtype=np.uint8))
         collision_position = self.check_collision(old_position, new_position)
+
         if collision_position!=None:
             racer.velocity=0
             new_position = collision_position
+
         self.world_map[old_position]=racer.last_elem
-        racer.last_elem=self.world_map[new_position]
+
+        if self.world_map[new_position] != CAR:
+            racer.last_elem=self.world_map[new_position]
+
         self.world_map[new_position]=CAR
         racer.position = new_position
         
@@ -90,4 +96,5 @@ class World():
     def check_collision(self, old_position, new_position):
         if self.out_of_bound(new_position) or self.world_map[new_position]==WALL:
             return old_position
+
         return None
