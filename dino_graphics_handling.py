@@ -1,17 +1,8 @@
 def game_loop(*args):
-    if not game_started:
-        frame = startFrame
-    else:
-        frame = baseFrame.copy()
-        frame = place_dino(frame)
-        frame = check_and_update_trees(frame)
-
-        if not game_end:
-            frame = place_tree(frame)
-            new_score()
-        else:
-            print_score("Final")
-            frame = endFrame
+    frame = BASE_FRAME.copy()
+    frame = place_dino(frame)
+    frame = check_and_update_trees(frame)
+    # etc.
 
     im.set_data(frame)
     return im,
