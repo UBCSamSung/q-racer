@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from pynput import keyboard
+
 def game_loop(*args):
     frame = BASE_FRAME.copy()
     frame = place_dino(frame)
