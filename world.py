@@ -42,9 +42,10 @@ class World():
     def __init__(self):
         self.racers=[]
         self.world_map=None
+        self.start_line=None
         
     def set_map(self, map):
-        self.world_map = map
+        self.world_map, self.start_line = map        
 
     def get_state(self):
         return {
