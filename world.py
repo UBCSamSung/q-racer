@@ -50,10 +50,11 @@ class World():
         self.racers=[]
         self.world_map=None
         self.start_line=None
+        self.goal_line=None
         self.start_time=dt.datetime.now()
         
     def set_map(self, map):
-        self.world_map, self.start_line = map        
+        self.world_map, self.start_line, self.goal_line = map        
 
     def get_state(self):
         return {
@@ -76,6 +77,9 @@ class World():
             self.update_racer(racer)
     
     def update_racer(self, racer):
+        if racer.position[1] == self.goal_line:
+            print("Race done")
+
         racer.update()
         old_position = racer.position
         new_position = tuple(np.array(np.add(racer.position,racer.velocity), dtype=np.uint8))
@@ -92,8 +96,6 @@ class World():
 
         self.world_map[new_position]=CAR
         racer.position = new_position
-
-        # TODO: Wining / Losing check
         
     def out_of_bound(self, position):
         height, width=self.world_map.shape
