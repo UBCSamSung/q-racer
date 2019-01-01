@@ -1,7 +1,13 @@
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from pynput import keyboard
+
 def game_loop(*args):
     frame = BASE_FRAME.copy()
-    frame = place_dino(frame)
-    frame = check_and_update_trees(frame)
+
+    # All kinds of game updates
+    #frame = place_dino(frame)
+    #frame = check_and_update_trees(frame)
     # etc.
 
     im.set_data(frame)
