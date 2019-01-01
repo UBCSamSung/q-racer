@@ -54,7 +54,7 @@ class World():
         self.start_time=dt.datetime.now()
         
     def set_map(self, map):
-        self.world_map, self.start_line, self.goal_line = map        
+        self.world_map, self.start_line, self.goal_line = map
 
     def get_state(self):
         return {
@@ -63,9 +63,14 @@ class World():
         }
     
     def add_racer(self, position, direction):
-        # TODO: Place racer at starting line
-        last_elem=self.world_map[position]
-        racer = Racer(position, direction, last_elem)
+        startY = np.random.choice(np.where(self.world_map[:,self.start_line] == LINE)[0], 1)[0]
+        startPosition = (startY, self.start_line)
+
+        last_elem=self.world_map[startPosition]
+        racer = Racer(startPosition, direction, last_elem)
+
+        #last_elem=self.world_map[position]
+        #racer = Racer(position, direction, last_elem)
         self.racers.append(racer)
     
     def update(self, agent_inputs=None):
