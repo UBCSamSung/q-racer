@@ -6,12 +6,13 @@ class Racer():
         self.velocity=(0,0)
         self.direction=0
         self.instruction=None
+
 class World():
     def __init__(self):
         map_width=1000
         map_height=500
         self.racers=[]
-        self.world_map=np.zeros([map_width,map_height], dtype=np.uint8)
+        self.world_map=np.zeros([map_height, map_width], dtype=np.uint8)
         
     def get_state(self):
         return {
@@ -27,4 +28,5 @@ class World():
             self.update_racer(racer)
     
     def update_racers(self, racer):
-        # TODO
+        #TODO
+        pass
