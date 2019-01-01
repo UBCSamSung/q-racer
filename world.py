@@ -6,23 +6,22 @@ CAR=128
 LINE=200
 
 class Racer():
-    def __init__(self, position, direction):
+    def __init__(self, position, direction, last_elem):
         self.position=position
         self.velocity=(0,0)
         self.direction=direction
         self.lap=0
         self.instruction=None
+        self.last_elem=last_elem
 
 class World():
     def __init__(self):
-        map_height=30
-        map_width=40
         self.racers=[]
-        self.world_map=np.zeros([map_height, map_width], dtype=np.uint8)
-        # For demo:
-        self.add_racer((5,5), 0)
-        self.racers[0].velocity=(0,1)
-        
+        self.world_map=None
+
+    def set_map(self, map):
+        self.world_map = map
+
     def get_state(self):
         return {
             'racers': self.racers,
@@ -30,7 +29,8 @@ class World():
         }
     
     def add_racer(self, position, direction):
-        racer = Racer(position, direction)
+        last_elem=self.world_map[position]
+        racer = Racer(position, direction, last_elem)
         self.racers.append(racer)
     
     def update(self, agent_inputs=None):
@@ -45,8 +45,16 @@ class World():
         old_position = racer.position
         new_position = tuple(np.clip(np.add(racer.position,racer.velocity), [0,0], self.world_map.shape))
         new_position = self.check_collision(old_position, new_position) or new_position
-        self.world_map[old_position]=ROAD
+        
+        # trying
+        self.world_map[old_position]=racer.last_elem
+        racer.last_elem=self.world_map[new_position]
         self.world_map[new_position]=CAR
+        
+        # if above doesn't work...
+        #self.world_map[old_position]=ROAD
+        #self.world_map[new_position]=CAR
+
         racer.position = new_position
         
     def out_of_bound(self, position):

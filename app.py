@@ -6,7 +6,11 @@ from test_maps import rectangle
 
 # Initialize new world
 world = World()
-world.world_map = rectangle
+world.set_map(rectangle)
+
+# For demo:
+world.add_racer((5,5), 0)
+world.racers[0].velocity=(0,1)
 
 # Game update
 def gameUpdate(*args):
