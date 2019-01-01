@@ -3,6 +3,7 @@ import numpy as np
 trackWidth = 10
 rectangle = np.full([50, 100], 255, dtype=np.uint8)
 startPos = rectangle.shape[0] // 2
+rectangle[0:rectangle.shape[0]//2,startPos-2] = 100
 rectangle[0:rectangle.shape[0]//2,startPos-1] = 0
 rectangle[0:rectangle.shape[0]//2,startPos] = 200
 rectangle[0] = 0; rectangle[rectangle.shape[0] - 1] = 0; rectangle[:,0] = 0; rectangle[:,rectangle.shape[1] - 1] = 0
