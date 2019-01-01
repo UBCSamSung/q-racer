@@ -17,7 +17,4 @@ screen = plt.figure()
 
 im = plt.imshow(world.world_map, cmap='gray', vmin=0, vmax=255, animated=True)
 ani = animation.FuncAnimation(screen, gameUpdate, frames=1000, interval=1, blit=False)
-
-#plt.xticks(np.arange(0, world.world_map.shape[1], RESOLUTION))
-#plt.yticks(np.arange(0, world.world_map.shape[0], RESOLUTION))
 plt.show()
