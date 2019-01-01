@@ -2,11 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from world import World
-from test_maps import rectangle
+from test_maps import rectangle, straight
 
 # Initialize new world
 world = World()
-world.set_map(rectangle)
+world.set_map(straight)
+#world.set_map(rectangle)
 
 # For demo:
 world.add_racer(0)
