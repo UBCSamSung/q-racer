@@ -1,4 +1,5 @@
 import numpy as np
+import datetime as dt
 import helper
 
 # Color coding for map elements
@@ -48,6 +49,7 @@ class World():
         self.racers=[]
         self.world_map=None
         self.start_line=None
+        self.start_time=dt.datetime.now()
         
     def set_map(self, map):
         self.world_map, self.start_line = map        
