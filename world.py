@@ -62,15 +62,12 @@ class World():
             'world_map': self.world_map
         }
     
-    def add_racer(self, position, direction):
+    def add_racer(self, direction):
         startY = np.random.choice(np.where(self.world_map[:,self.start_line] == LINE)[0], 1)[0]
         startPosition = (startY, self.start_line)
 
         last_elem=self.world_map[startPosition]
         racer = Racer(startPosition, direction, last_elem)
-
-        #last_elem=self.world_map[position]
-        #racer = Racer(position, direction, last_elem)
         self.racers.append(racer)
     
     def update(self, agent_inputs=None):

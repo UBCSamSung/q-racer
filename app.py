@@ -9,7 +9,7 @@ world = World()
 world.set_map(rectangle)
 
 # For demo:
-world.add_racer((5,5), 0)
+world.add_racer(0)
 world.racers[0].velocity=(0,1)
 
 # Game update
