@@ -75,12 +75,19 @@ class World():
             for index, agent_input in enumerate(agent_inputs):
                 self.racers[index].action = agent_input
 
+        racersAtGoal = []
         for racer in self.racers:
-            self.update_racer(racer)
+            crossedGoal = self.update_racer(racer)
+            if crossedGoal:
+                racersAtGoal.append(racer)
+        if len(racersAtGoal) > 0:
+            print("Game end!")
+            print(f"Winning racers: {racersAtGoal}")
     
     def update_racer(self, racer):
         if racer.position[1] == self.goal_line:
             print("Race done")
+            return True
 
         racer.update()
         old_position = racer.position
@@ -98,6 +105,7 @@ class World():
 
         self.world_map[new_position]=CAR
         racer.position = new_position
+        return False
         
     def out_of_bound(self, position):
         height, width=self.world_map.shape
