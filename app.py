@@ -9,10 +9,17 @@ world = World()
 # For demo:
 world.add_racer((5,5), 0)
 world.world_map = rectangle
+last_state=None
 
 # Game update
 def gameUpdate(*args):
-    world.update([np.random.choice(['forward', 'left', 'right'], 1)])
+    state = world.get_state()
+    if last_state and state[1]==last_state[1]:
+        # stuck somewhere
+        world.update([np.random.choice(['backward'], 1)])
+    else:
+        # not stuck. accelerate
+        world.update([np.random.choice(['forward', 'left', 'right'], 1)])
     im.set_data(world.world_map)
     return im,
 

@@ -69,7 +69,7 @@ class World():
         print("new position", new_position)
         collision_position = self.check_collision(old_position, new_position)
         if collision_position!=None:
-            racer.velocity=1
+            racer.velocity=0
             new_position = collision_position
         self.world_map[old_position]=ROAD
         self.world_map[new_position]=CAR
