@@ -3,6 +3,7 @@ import numpy as np
 WALL=0
 ROAD=255
 CAR=128
+LINE=200
 
 class Racer():
     def __init__(self, position, direction):
