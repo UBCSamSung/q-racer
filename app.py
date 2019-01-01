@@ -6,11 +6,13 @@ from test_maps import rectangle
 
 # Initialize new world
 world = World()
+# For demo:
+world.add_racer((5,5), 0)
 world.world_map = rectangle
 
 # Game update
 def gameUpdate(*args):
-    world.update()
+    world.update([np.random.choice(['forward', 'left', 'right'], 1)])
     im.set_data(world.world_map)
     return im,
 
