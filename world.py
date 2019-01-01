@@ -14,13 +14,16 @@ TRACK_WIDTH = 10
 
 
 class Racer():
-    def __init__(self, position, direction, last_elem):
+    def __init__(self, id, position, direction, last_elem):
+        self.id=id
         self.position=position
         self.velocity=(0,0)
         self.direction=direction
         self.lap=0
         self.last_elem=last_elem
         self.action=None
+        self.start_time=dt.datetime.now()
+        self.score=0
 
         # car option
         self.deltaV=1
@@ -51,7 +54,6 @@ class World():
         self.world_map=None
         self.start_line=None
         self.goal_line=None
-        self.start_time=dt.datetime.now()
         
     def set_map(self, map):
         self.world_map, self.start_line, self.goal_line = map
@@ -67,7 +69,7 @@ class World():
         startPosition = (startY, self.start_line)
 
         last_elem=self.world_map[startPosition]
-        racer = Racer(startPosition, direction, last_elem)
+        racer = Racer(len(self.racers), startPosition, direction, last_elem)
         self.racers.append(racer)
     
     def update(self, agent_inputs=None):
@@ -80,13 +82,20 @@ class World():
             crossedGoal = self.update_racer(racer)
             if crossedGoal:
                 racersAtGoal.append(racer)
+
         if len(racersAtGoal) > 0:
             print("Game end!")
-            print(f"Winning racers: {racersAtGoal}")
+            for racer in racersAtGoal:
+                print(f"Winning racer: {racer.id} Score: {racer.score}")
+
+            # For testing only            
+            import os
+            os._exit(0)
     
     def update_racer(self, racer):
         if racer.position[1] == self.goal_line:
             print("Race done")
+            racer.score = 1 / (dt.datetime.now() - racer.start_time).microseconds
             return True
 
         racer.update()
