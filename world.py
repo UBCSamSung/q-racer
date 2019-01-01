@@ -1,5 +1,9 @@
 import numpy as np
 
+WALL=0
+ROAD=255
+CAR=128
+
 class Racer():
     def __init__(self, position, direction):
         self.position=position
@@ -15,8 +19,8 @@ class World():
         self.racers=[]
         self.world_map=np.zeros([map_height, map_width], dtype=np.uint8)
         # For demo:
-        self.add_racer((10,20), 0)
-        self.racers[0].velocity=(1,0)
+        self.add_racer((5,5), 0)
+        self.racers[0].velocity=(0,1)
         
     def get_state(self):
         return {
@@ -40,8 +44,8 @@ class World():
         old_position = racer.position
         new_position = tuple(np.clip(np.add(racer.position,racer.velocity), [0,0], self.world_map.shape))
         new_position = self.check_collision(old_position, new_position) or new_position
-        self.world_map[old_position]=0
-        self.world_map[new_position]=128
+        self.world_map[old_position]=ROAD
+        self.world_map[new_position]=CAR
         racer.position = new_position
         
     def out_of_bound(self, position):
@@ -55,6 +59,6 @@ class World():
     # Return position of collision if collision occur in the path
     # Otherwise, return None
     def check_collision(self, old_position, new_position):
-        if self.out_of_bound(new_position) or self.world_map[new_position]>0:
+        if self.out_of_bound(new_position) or self.world_map[new_position]==WALL:
             return old_position
         return None
