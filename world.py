@@ -137,7 +137,9 @@ class World():
         if abs(new_position[axis]-old_position[axis])==0:
             # did not move
             return None
+        # use longer axis to create line equation
         line_equation = helper.point2line(old_position, new_position, inverse=axis==0)
+        # step through each point along the longer axis
         steps=np.linspace(old_position[axis], new_position[axis], 
             num=abs(old_position[axis] - new_position[axis])+1, 
             endpoint=True)
@@ -146,7 +148,6 @@ class World():
             if axis==1:
                 point=point[::-1]
             point=tuple(point)
-            print("point", point)
             if self.point_collision(point):
                 return previous_valid_point
             else:
