@@ -14,6 +14,7 @@ world.set_map(straight)
 # For demo:
 world.add_racer(0)
 world.racers[0].velocity=(0,1)
+
 agents = []
 agents.append(Agent())
 
