@@ -84,17 +84,24 @@ class World():
                 racersAtGoal.append(racer)
 
         if len(racersAtGoal) > 0:
-            print("Game end!")
-            for racer in racersAtGoal:
-                print(f"Winning racer: {racer.id} Score: {-racer.penalty}")
+            #print("Game end!")
+            #for racer in racersAtGoal:
+            #    print(f"Winning racer: {racer.id} Score: {-racer.penalty}")
 
-            # For testing only            
-            import os
-            os._exit(0)
+            allRacerResults = {}
+            for racer in self.racers:
+                if racer.id not in racersAtGoal:
+                    allRacerResults[racer.id] = float("-inf")
+                else:
+                    allRacerResults[racer.id] = -racer.penalty
+            
+            return allRacerResults
+
+        return {}
     
     def update_racer(self, racer):
         if racer.position[1] == self.goal_line:
-            print("Race done")
+            #print("Race done")
             return True
 
         racer.update()
