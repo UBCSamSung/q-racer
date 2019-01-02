@@ -93,7 +93,7 @@ class World():
             os._exit(0)
     
     def update_racer(self, racer):
-        if racer.position[1] == self.goal_line:
+        if racer.last_elem == GOAL:
             print("Race done")
             return True
 
