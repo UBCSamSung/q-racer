@@ -100,7 +100,7 @@ class World():
         racer.update()
         old_position = racer.position
         new_position = tuple(np.array(np.add(racer.position,racer.velocity), dtype=np.uint8))
-        collision_position = self.check_collision(old_position, new_position)
+        collision_position = self.path_collision(old_position, new_position)
 
         if collision_position!=None:
             racer.velocity=0
@@ -126,8 +126,35 @@ class World():
     
     # Return position of collision if collision occur in the path
     # Otherwise, return None
-    def check_collision(self, old_position, new_position):
-        if self.out_of_bound(new_position) or self.world_map[new_position]==WALL:
-            return old_position
-
+    def path_collision(self, old_position, new_position):
+        # store last valid point in the path
+        previous_valid_point=old_position
+        # convert to float to avoid overflow
+        old_position=np.array(old_position, dtype=np.float)
+        new_position=np.array(new_position, dtype=np.float)
+        # check along the axis with higher displacment
+        axis=0 if abs(old_position[0] - new_position[0])>abs(old_position[1] - new_position[1]) else 1
+        if abs(new_position[axis]-old_position[axis])==0:
+            # did not move
+            return None
+        line_equation = helper.point2line(old_position, new_position, inverse=axis==0)
+        steps=np.linspace(old_position[axis], new_position[axis], 
+            num=abs(old_position[axis] - new_position[axis])+1, 
+            endpoint=True)
+        for step in steps:
+            point = (int(round(step)), int(round(line_equation(step))))
+            if axis==1:
+                point=point[::-1]
+            point=tuple(point)
+            print("point", point)
+            if self.point_collision(point):
+                return previous_valid_point
+            else:
+                previous_valid_point=point
         return None
+
+    # detect if point is collision free
+    def point_collision(self, point):
+        if self.out_of_bound(point) or self.world_map[point]==WALL:
+            return True
+        return False
