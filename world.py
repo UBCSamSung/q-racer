@@ -55,8 +55,9 @@ class World():
         self.start_line=None
         self.goal_line=None
         
-    def set_map(self, map):
-        self.world_map, self.start_line, self.goal_line = map
+    def set_map(self, _map):
+        world_map, self.start_line, self.goal_line = _map
+        self.world_map = world_map.copy()
 
     def get_state(self):
         return {
