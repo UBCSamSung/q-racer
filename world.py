@@ -65,10 +65,12 @@ class World():
         }
     
     def add_racer(self, direction):
-        startY = np.random.choice(np.where(self.world_map[:,self.start_line] == LINE)[0], 1)[0]
+        #startY = np.random.choice(np.where(self.world_map[:self.world_map.shape[0]//2,self.start_line] == ROAD)[0], 1)[0]
+        startY = 3
         startPosition = (startY, self.start_line)
 
-        last_elem=self.world_map[startPosition]
+        #last_elem=self.world_map[startPosition]
+        last_elem = ROAD
         racer = Racer(len(self.racers), startPosition, direction, last_elem)
         self.racers.append(racer)
     

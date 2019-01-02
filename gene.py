@@ -7,20 +7,22 @@ from Agent import Agent, GeneAgent
 import random
 
 # Genetic algorithm specific
-POPULATION_SIZE = 4
-ELITE_SIZE = 2
+POPULATION_SIZE = 1000
+ELITE_SIZE = 20
 MUTATION_RATE = 0.2
-GENERATIONS = 100
-MAX_STEPS = 1000
+GENERATIONS = 1000
+MAX_STEPS = 5000
+MAP = rectangle
 
 # Game state variables
 world = World()
-world.set_map(straight)
+world.set_map(MAP)
 agents = []
 
 gameEnd = True
 populations = []
 generationCount = 0
+stepsCount = 0
 allRacerResults = {}
 
 def CreateIndividual():
@@ -119,17 +121,26 @@ def gameUpdate(*args):
     global agents
     global populations
     global generationCount
+    global stepsCount
     global gameEnd
     global allRacerResults
 
     if not gameEnd:
         state = world.get_state()
         actions=[agent.get_action(state) for agent in agents]
+        stepsCount += 1
         allRacerResults = world.update(actions)
+
         if len(allRacerResults) != 0:
             gameEnd = True
+        
+        if (not gameEnd) and (stepsCount >= MAX_STEPS):
+            gameEnd = True
+            populations = []
+            print("Restarting ...")
     else:
         if populations == []:
+            generationCount = 0
             populations = InitializePopulation(POPULATION_SIZE)
         else:
             PrintResult()
@@ -145,7 +156,7 @@ def gameUpdate(*args):
                 os._exit(0)
         
         world = World()
-        world.set_map(straight)
+        world.set_map(MAP)
         agents = []
         for i in range(POPULATION_SIZE):
             world.add_racer(0)
