@@ -102,8 +102,8 @@ class World():
         return {}
     
     def update_racer(self, racer):
-        if racer.position[1] == self.goal_line:
-            #print("Race done")
+        if racer.last_elem == GOAL:
+            print("Race done")
             return True
 
         racer.update()
